@@ -13,8 +13,8 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = "ubuntu/xenial64"
-  config.vm.network "forwarded_port", guest: 22, host: 2222
-  # config.ssh.insert_key = false
+  config.vm.network "forwarded_port", guest: 22, host: 2200, host_ip: "127.0.0.1"
+  config.vm.hostname = "first"  # config.ssh.insert_key = false
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
