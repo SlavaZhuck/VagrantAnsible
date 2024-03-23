@@ -1,6 +1,8 @@
 # На какой группе серверов
 - hosts: webservers
-
+  vars:
+    nginx_port: 8081
+    root_dir: /usr/share/nginx/html/index.html
   tasks:
     - name: install nginx
       ansible.builtin.apt:
@@ -11,7 +13,7 @@
       tags: install     
      
     - name: update nginx config
-      ansible.builtin.copy:
+      ansible.builtin.template:
         src: files/nginx.conf
         dest: /etc/nginx/nginx.conf
       notify:
@@ -21,7 +23,7 @@
     - name:
       ansible.builtin.copy:
         src: files/index.html
-        dest: /usr/share/nginx/html/index.html
+        dest: "{{root_dir}}"
       become: yes
       
   handlers:
