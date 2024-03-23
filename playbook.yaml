@@ -2,17 +2,50 @@
 - hosts: webservers
 
   tasks:
-    - name: install redis server
+    - name: install git
       ansible.builtin.apt:
         name: git
         state: present
         update_cache: yes
-#      become_user: user
       become: yes # <---
+      tags: install
 
-#    - name: remove redis server
-#      ansible.builtin.apt:
-#        name: redis-server
-#        state: absent
-#        state: present
-#      become: yes # <---
+    - name: install make
+      ansible.builtin.apt:
+        name: make
+        state: present
+        update_cache: yes
+      become: yes # <---
+      tags: install
+
+    - name: install nodejs
+      ansible.builtin.apt:
+        name: nodejs
+        state: present
+        update_cache: yes
+      become: yes # <---
+      tags: install
+
+    - name: Add the user 'arya'
+      ansible.builtin.user:
+        name: arya
+      become: yes # <---
+      tags: user
+
+    - name: Add the user 'sansa'
+      ansible.builtin.user:
+        name: sansa
+      become: yes # <---
+      tags: user
+
+    - name: Add the user 'tirion'
+      ansible.builtin.user:
+        name: tirion
+      become: yes # <---
+      tags: user
+      
+      
+      
+      
+
+
