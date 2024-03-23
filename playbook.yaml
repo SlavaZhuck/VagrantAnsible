@@ -5,7 +5,7 @@
     - name: install redis server
       ansible.builtin.apt:
         name: git
-        state: present
+        state: absent
         update_cache: yes
       become: yes # <---
 
@@ -13,4 +13,5 @@
 #      ansible.builtin.apt:
 #        name: redis-server
 #        state: absent
+#        state: present
 #      become: yes # <---
