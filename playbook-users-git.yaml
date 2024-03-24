@@ -1,0 +1,54 @@
+# На какой группе серверов
+- hosts: webservers
+  vars:
+    nginx_port: 8081
+    root_dir: /usr/share/nginx/html/index.html
+  tasks:
+    - name: add test users
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        state: present
+        groups: "{{ item.groups }}"
+      loop:
+        - { name: jaime, groups: user }
+        - { name: sansa, groups: user }
+        - { name: robert, groups: user }
+      become: yes
+      
+    - name: add git config files
+      ansible.builtin.template:
+        src: files/.gitconfig
+        dest: "/home/{{item.name}}/.gitconfig"
+        owner: "{{item.name}}"
+        #mode: u=rw,g=r,o=r
+      loop:
+        - { name: jaime, email: jaime@test.com }
+        - { name: sansa, email: sansa@test.com }
+        - { name: robert, email: robert@test.com }
+      become: yes
+
+    - name: create .ssh folders
+      ansible.builtin.file:
+        path: "/home/{{item}}/.ssh"
+        state: directory
+        mode: '0700'
+        owner: "{{item}}"
+      loop:
+        - jaime
+        - sansa
+        - robert
+      become: yes
+ 
+    - name: add public key
+      ansible.builtin.copy:
+        src: ./files/authorized_keys
+        dest: "/home/{{item}}/.ssh/authorized_keys"
+        mode: '0600'
+        owner: "{{item}}"
+      loop:
+        - jaime
+        - sansa
+        - robert
+      become: yes
+
+

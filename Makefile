@@ -9,3 +9,6 @@ run-nginx-launch:
 
 run-git-install:
 	ansible-playbook playbook-git.yaml -i inventory.ini --ask-become-pass 
+
+run-users-git:
+	ansible-playbook playbook-users-git.yaml -i inventory.ini --ask-become-pass 
