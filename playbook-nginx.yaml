@@ -3,8 +3,8 @@
   vars:
     nginx_port: 8081
     root_dir: /usr/share/nginx/html/index.html
-    server_name: my_WEB_server
-    date_time: "{{ ansible_date_time }}"
+    server_name: "{{ansible_distribution}}, {{ansible_distribution_version}}"
+    date_time: "{{ ansible_date_time['iso8601_micro'] }}"
   tasks:
     - name: install nginx
       ansible.builtin.apt:
@@ -13,7 +13,15 @@
         update_cache: yes
       become: yes
       tags: install     
-     
+
+    - name: install cowsay
+      ansible.builtin.apt:
+        name: cowsay
+        state: present
+        update_cache: yes
+      become: yes
+      tags: install 
+           
     - name: update nginx config
       ansible.builtin.template:
         src: files/nginx.conf
@@ -21,12 +29,23 @@
       notify:
         - restart nginx
       become: yes
-           
+
+    - name: cowsay command
+      ansible.builtin.shell: "cowsay This is server {{server_name}}"
+      register: cowsay_result
+    
+    - name: print cowsay_result variable
+      ansible.builtin.debug:
+        var: cowsay_result
+                         
     - name:
       ansible.builtin.template:
         src: files/index.html
         dest: "{{root_dir}}"
       become: yes
+     
+     
+     
       
   handlers:
     - name: restart nginx
