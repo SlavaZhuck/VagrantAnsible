@@ -21,7 +21,7 @@
       become: yes
            
     - name:
-      ansible.builtin.copy:
+      ansible.builtin.template:
         src: files/index.html
         dest: "{{root_dir}}"
       become: yes
