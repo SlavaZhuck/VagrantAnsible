@@ -3,6 +3,8 @@
   vars:
     nginx_port: 8081
     root_dir: /usr/share/nginx/html/index.html
+    server_name: my_WEB_server
+    date_time: "{{ ansible_date_time }}"
   tasks:
     - name: install nginx
       ansible.builtin.apt:
