@@ -1,0 +1,4 @@
+---
+# defaults file for ansible-role-git
+
+item: { name: default, email: default@test.com }
