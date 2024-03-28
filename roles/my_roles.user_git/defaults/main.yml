@@ -1,0 +1,4 @@
+---
+# defaults file for ansible-role-git
+
+vars_user: { name: default, email: default@test.com }
